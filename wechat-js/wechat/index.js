@@ -1,4 +1,4 @@
-const config = require("../config");
+// const config = require("../config");
 const crypto = require('crypto')
 const getRawBody = require("raw-body");
 const parseStringPromise = require("xml2js").parseStringPromise;
@@ -14,8 +14,27 @@ const parseStringPromise = require("xml2js").parseStringPromise;
 }
  */
 
-module.exports = () => {
+const API = require('./access_token');
+const axios = require('axios');
+const { log } = require('console');
+
+module.exports = (config) => {
 	return async ctx => {
+
+		const api = new API(config);
+		const accessToken = await api.get_access_token();
+		// 获取 access_token
+		console.log('access_token:',accessToken);
+		
+		// 获取用户列表. 测试未通过
+		// users: {
+		// 		errcode: 40001,
+		// 		errmsg: 'invalid credential, access_token is invalid or not latest, could get access_token by getStableAccessToken, more details at https://mmbizurl.cn/s/JtxxFh33r rid: 64c66038-6952db2e-4df155c2'
+		// }
+		const get_users_url = `https://api.weixin.qq.com/cgi-bin/user/get?access_token=${accessToken}&next_openid=`;
+		const users = await axios.get(get_users_url);
+		console.log('users:', users.data);
+
 		console.log(ctx.query)
 		// const { token } = config;
 		const { signature, echostr, timestamp, nonce } = ctx.query;
