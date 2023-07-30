@@ -1,0 +1,16 @@
+{
+  "name": "wechat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "leichu",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.14.2",
+    "raw-body": "^2.5.2",
+    "xml2js": "^0.6.2"
+  }
+}
